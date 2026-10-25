@@ -145,6 +145,12 @@ class BlockTests(FakeProfile):
         self.write_log(put(b"pomoState", pomo("09:00", "paused")), "000007.log")
         self.assertEqual(it.pomo_block()["full_text"], "POMO ⏸ 09:00")
 
+    def test_log_is_newer_than_higher_numbered_table(self):
+        # Table #5 flushed from log #3 while #4 was already the live log.
+        self.write_log(put(b"pomoState", pomo("09:00", "paused")), "000004.log")
+        self.write_log(put(b"pomoState", pomo("10:00", "paused")), "000005.ldb")
+        self.assertEqual(it.pomo_block()["full_text"], "POMO ⏸ 09:00")
+
     def test_utf16_value(self):
         self.write_log(put(b"pomoState", pomo("12:34", "paused"), utf16=True))
         self.assertEqual(it.pomo_block()["full_text"], "POMO ⏸ 12:34")

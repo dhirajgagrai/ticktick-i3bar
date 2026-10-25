@@ -85,7 +85,9 @@ def _last_value(blob, key):
 
 def read_state():
     files = glob.glob(os.path.join(LEVELDB, "*.ldb")) + glob.glob(os.path.join(LEVELDB, "*.log"))
-    files.sort(key=lambda p: int(re.sub(r"\D", "", os.path.basename(p)) or 0))
+    # The live .log holds the newest writes even when a table flushed from an
+    # older log has a higher number, so tables go first and logs last.
+    files.sort(key=lambda p: (p.endswith(".log"), int(re.sub(r"\D", "", os.path.basename(p)) or 0)))
     try:
         sig = tuple((p, os.stat(p).st_mtime_ns, os.stat(p).st_size) for p in files)
     except OSError:
