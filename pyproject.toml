@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ticktick-i3bar"
+version = "0.1.0"
+description = "Show the TickTick desktop app's pomodoro countdown in your i3 status bar"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "dhirajgagrai", email = "dhirajgagrai@gmail.com" }]
+requires-python = ">=3.8"
+dependencies = []
+classifiers = [
+    "Environment :: X11 Applications",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+]
+
+[project.scripts]
+ticktick-i3bar = "ticktick_i3bar:run"
+
+[tool.setuptools]
+py-modules = ["ticktick_i3bar"]
